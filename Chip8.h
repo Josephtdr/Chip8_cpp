@@ -20,6 +20,15 @@ private:
 	uint16_t opcode;
 
     //OPCODES
+    using opcodeFnPtr = void(Chip8::*)();
+
+    opcodeFnPtr table[16]{};
+    opcodeFnPtr table0[0xF]{};
+    opcodeFnPtr table8[0xF]{};
+    opcodeFnPtr tableE[0xF]{};
+    opcodeFnPtr tableF[0x66]{};
+    
+    void setupTables();
     void Table0();
     void Table8();
     void TableE();
