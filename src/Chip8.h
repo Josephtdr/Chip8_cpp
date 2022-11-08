@@ -8,21 +8,36 @@
 class Chip8
 {
 private:
-	uint8_t registers[16]{};
-	uint8_t memory[4096]{};
+	uint8_t registers[REGISTER_COUNT]{};
+	uint8_t memory[MEMORY_SIZE]{};
 	uint16_t index{};
 	uint16_t pc{};
-	uint16_t stack[16]{};
+	uint16_t stack[STACK_SIZE]{};
 	uint8_t sp{};
 	uint8_t delayTimer{};
 	uint8_t soundTimer{};
-	uint8_t keypad[16]{};
-	uint32_t video[64 * 32]{};
 	uint16_t opcode;
     
     std::mt19937 mt;
     std::uniform_int_distribution<uint8_t> randByte;
 
+public:
+    uint32_t video[VIDEO_WIDTH * VIDEO_HEIGHT]{};
+    uint8_t keypad[KEY_COUNT]{};
+
+    Chip8();
+
+    /**
+     * @brief Load rom instructions at filename into memory
+     *        starting at START_ADDRESS.
+     * 
+     * @param filename : address to rom
+     */
+    void LoadROM(std::string_view filename);
+
+    void Cycle();
+
+private:
     //OPCODES
     using opcodeFnPtr = void(Chip8::*)();
 
@@ -79,21 +94,6 @@ private:
 
     //Null function for incorrect address
     void OP_NULL() {};
-
-public:
-    Chip8();
-
-    /**
-     * @brief Load rom instructions at filename into memory
-     *        starting at START_ADDRESS.
-     * 
-     * @param filename : address to rom
-     */
-    void loadROM(std::string_view filename);
-
-
-    void Cycle();
-
 };
 
 
