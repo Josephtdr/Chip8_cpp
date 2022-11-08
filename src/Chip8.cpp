@@ -4,10 +4,8 @@
 #include<cstring> //memset, 
 #include <cstdint>
 #include <fstream> //streams
-#include <string_view>
 #include <chrono>
 #include <numeric>//accumulate
-
 
 
 Chip8::Chip8()
@@ -257,7 +255,13 @@ void Chip8::OP_Dxyn()// DRW Vx, Vy, nibble
 		for (unsigned int col = 0; col < 8; ++col)
 		{
 			uint8_t spritePixel = spriteByte & (0x80u >> col);
-			uint32_t* screenPixel = &video[(yPos + row) * VIDEO_WIDTH + (xPos + col)];
+
+             // Wrap if going beyond screen boundaries
+            unsigned int video_row{ (yPos + row) % VIDEO_HEIGHT };
+            unsigned int video_col{ (xPos + col) % VIDEO_WIDTH }; 
+            unsigned int pixel_index{ video_row * VIDEO_WIDTH + video_col };
+
+			uint32_t* screenPixel = &video[pixel_index];
 
 			// Sprite pixel is on
 			if (spritePixel)
