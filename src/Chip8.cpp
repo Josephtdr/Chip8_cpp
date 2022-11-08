@@ -6,14 +6,13 @@
 #include <fstream>
 #include <string_view>
 #include <chrono>
-#include <random>
 #include <numeric>//accumulate
 
-std::default_random_engine randGen;
-std::uniform_int_distribution<uint8_t> randByte;
+
 
 Chip8::Chip8()
-    // : randGen(std::chrono::system_clock::now().time_since_epoch().count())
+    : mt{ std::random_device{}() },
+      randByte{ std::uniform_int_distribution<uint8_t>(0, 255U) }
 {
 	// Initialise PC
 	pc = START_ADDRESS;
@@ -22,9 +21,7 @@ Chip8::Chip8()
 	for (unsigned int i = 0; i < FONTSET_SIZE; ++i)
 	{
 		memory[FONTSET_START_ADDRESS + i] = FONTSET[i];
-	}
-    // Initialise RNG
-    randByte = std::uniform_int_distribution<uint8_t>(0, 255U);
+    }
 
     setupTables();
 
@@ -215,9 +212,9 @@ void Chip8::OP_Bnnn() //JP V0, addr
 void Chip8::OP_Cxkk() //TODO: random gen 
 {
     uint8_t Vx = (opcode & 0x0F00u) >> 8u;
-    uint16_t byte = (opcode & 0x00FFu);
+    uint8_t byte = (opcode & 0x00FFu);
 
-    registers[Vx] = byte & randByte(randGen);
+    registers[Vx] = byte & randByte(mt);
 }
 void Chip8::OP_Dxyn()// DRW Vx, Vy, nibble
 {

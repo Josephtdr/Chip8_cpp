@@ -3,6 +3,7 @@
 
 #include <string_view>
 #include <cstdint>
+#include <random>
 
 class Chip8
 {
@@ -19,6 +20,9 @@ private:
 	uint32_t video[64 * 32]{};
 	uint16_t opcode;
     
+    std::mt19937 mt;
+    std::uniform_int_distribution<uint8_t> randByte;
+
     //OPCODES
     using opcodeFnPtr = void(Chip8::*)();
 
