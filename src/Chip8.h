@@ -1,9 +1,10 @@
 #ifndef CHIP_8
 #define CHIP_8
 
-#include <string_view>
 #include <cstdint>
 #include <random>
+
+#include "Consts.h"
 
 class Chip8
 {
@@ -33,7 +34,7 @@ public:
      * 
      * @param filename : address to rom
      */
-    void LoadROM(std::string_view filename);
+    void LoadROM(char const* filename);
 
     void Cycle();
 
