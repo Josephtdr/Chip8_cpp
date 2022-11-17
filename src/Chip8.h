@@ -1,5 +1,5 @@
-#ifndef CHIP_8
-#define CHIP_8
+#ifndef H_CHIP_8
+#define H_CHIP_8
 
 #include <cstdint>
 #include <random>

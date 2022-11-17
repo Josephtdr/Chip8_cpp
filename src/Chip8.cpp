@@ -58,7 +58,7 @@ void Chip8::Cycle()
 	// Fetch
 	opcode = (memory[pc] << 8u) | memory[pc + 1];
 	// Increment the PC before we execute anything
-	pc += 2;
+	pc += 2u;
     // Decode and Execute
 	((*this).*(table[(opcode & 0xF000u) >> 12u]))();
 
@@ -169,7 +169,7 @@ void Chip8::OP_3xkk() // Skip if Vx = kk
 
 	if (registers[Vx] == byte)
 	{
-		pc += 2;
+		pc += 2u;
 	}
 }
 void Chip8::OP_4xkk()
@@ -179,7 +179,7 @@ void Chip8::OP_4xkk()
 
 	if (registers[Vx] != byte)
 	{
-		pc += 2;
+		pc += 2u;
 	}
 }
 void Chip8::OP_5xy0()
@@ -189,7 +189,7 @@ void Chip8::OP_5xy0()
 
 	if (registers[Vx] == registers[Vy])
 	{
-		pc += 2;
+		pc += 2u;
 	}
 }
 void Chip8::OP_6xkk() //LD Vx
@@ -214,7 +214,7 @@ void Chip8::OP_9xy0() //LD Vx, Vy
 
     if (registers[Vx] != registers[Vy])
     {
-        pc += 2;
+        pc += 2u;
     }
 }
 void Chip8::OP_Annn() //LD I, addr
@@ -256,7 +256,7 @@ void Chip8::OP_Dxyn()// DRW Vx, Vy, nibble
 		{
 			uint8_t spritePixel = spriteByte & (0x80u >> col);
 
-             // Wrap if going beyond screen boundaries
+            // Wrap if going beyond screen boundaries
             unsigned int video_row{ (yPos + row) % VIDEO_HEIGHT };
             unsigned int video_col{ (xPos + col) % VIDEO_WIDTH }; 
             unsigned int pixel_index{ video_row * VIDEO_WIDTH + video_col };
@@ -369,7 +369,7 @@ void Chip8::OP_ExA1()
 
     if (keypad[key])
     {
-        pc += 2;
+        pc += 2u;
     }
 }
 void Chip8::OP_Ex9E()
@@ -379,7 +379,7 @@ void Chip8::OP_Ex9E()
 
     if (!keypad[key])
     {
-        pc += 2;
+        pc += 2u;
     }
 }
 
@@ -402,7 +402,7 @@ void Chip8::OP_Fx0A()
         }
     }
     //Fail case, no keys pressed
-    pc -= 2;
+    pc -= 2u;
 }
 void Chip8::OP_Fx15()
 {
@@ -434,10 +434,10 @@ void Chip8::OP_Fx33()//Store BCD representation of Vx in memory locations I, I+1
     uint8_t Vx = (opcode & 0x0F00u) >> 8u;
     uint8_t value = registers[Vx];
 
-    memory[index+2] = value % 10;
+    memory[index + 2u] = value % 10;
     value /= 10;
 	
-    memory[index + 1] = value % 10;
+    memory[index + 1u] = value % 10;
 	value /= 10;
 
 	memory[index] = value % 10;

@@ -1,5 +1,5 @@
-#ifndef CONSTS
-#define CONSTS
+#ifndef H_CONSTS
+#define H_CONSTS
 
 #include <cstdint>
 

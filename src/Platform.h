@@ -1,5 +1,5 @@
-#ifndef PLATFORM
-#define PLATFORM
+#ifndef H_PLATFORM
+#define H_PLATFORM
 
 #include<SDL2/SDL.h>
 
